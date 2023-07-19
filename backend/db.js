@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const mongoURI = 'mongodb+srv://mridultiwari70:Tiwari15@cluster0.kwofqad.mongodb.net/volunteer?retryWrites=true&w=majority'
+const mongoURI = process.env.REACT_APP_mongo;
 
 
 const connectToMongo = ()=>{

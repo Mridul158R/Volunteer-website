@@ -86,7 +86,7 @@ const handleSubmit = async(e)=>{
       />
       <TextField
         label="Selected Date"
-        value={selectedDate ? selectedDate.toLocaleDateString('en-DE') : ''}
+        value={selectedDate ? selectedDate.toDateString() : ''}
         // You can use the selectedDate value in your form input as needed
       />
     </LocalizationProvider>
