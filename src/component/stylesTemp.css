@@ -1,0 +1,9 @@
+.temp{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.tempName{
+    margin-right: 10vh;
+}

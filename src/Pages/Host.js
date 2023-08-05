@@ -16,19 +16,16 @@ const Host = () => {
   const {events, addEvent} = context;
   const [selectedDate, setSelectedDate] = useState(null);
   const [event, setEvent] = useState({id:"",image:"", title: "", description: "", address: "",volunteer: "",date : "" })
-  
   const handleDateChange = (date) => {
     setSelectedDate(date.toDate()); 
     // setSelectedDate(date); // Convert to a Date object
-    //date.format("YYYY-MM-DD HH:MM").toDate()
-    console.log(date.toDate());
     event.date = date.toDate();
-    // console.log(selectedDate);
+    console.log(selectedDate);
   };
   const onChange =async (e) => {
     
     setEvent({ ...event, [e.target.name]: e.target.value })
-    console.log(event);
+   
 }
 
 const handleFileUpload = async (e)=>{
@@ -110,4 +107,4 @@ function convertToBase64(file){
       reject(error);
     }
   })
-}
+} 

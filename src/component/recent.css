@@ -1,4 +1,4 @@
-.text {
+/* .text {
     padding: 30px;
   }
  .category span {
@@ -18,4 +18,9 @@
   .button {
     border-top: 1px solid #e4e8f3;
     padding: 10px 30px;
+  } */
+  .btn-black {
+    background-color: black;
+    color: white;
+    outline: none;
   }

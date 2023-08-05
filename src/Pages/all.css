@@ -1,0 +1,15 @@
+body, html {
+    height: 100%;
+  }
+
+.bgimg{
+    background-image: url('./volunteer.jpg');
+    height: 33rem;
+    /* margin: 0;
+    padding: 0; */
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

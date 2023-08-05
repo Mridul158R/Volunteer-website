@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
 const Event = require("./models/Event"); 
 const moment = require("moment");
+require('dotenv').config();
 
 
 const mailer = async () => {
@@ -15,6 +16,7 @@ const mailer = async () => {
     const tomorrowEvents = events.filter((event) =>
       moment(event.date).isSame(tomorrow, "day")
     );
+    console.log(tomorrowEvents);
 
     // Rest of the nodemailer code to send emails using the tomorrowEvents data
     let transporter = nodemailer.createTransport({
@@ -32,7 +34,7 @@ const mailer = async () => {
       event.registrations.forEach(async (registration) => {
         const info = await transporter.sendMail({
           from: '<neelamtiwari0815@gmail.com>',
-          to: registration.email,
+          to: registration.email, 
           subject: "Event Reminder: Tomorrow's Event",
           text: `You are registered for the event: ${event.title} happening tomorrow at ${event.date}.`,
           html: `<b>Event Reminder: Tomorrow's Event</b><br><br>
@@ -40,7 +42,7 @@ const mailer = async () => {
         });
         console.log(`Email sent for event: ${event.title} to ${registration.email}`);
       });
-    });
+    }); 
 
     console.log('Emails sent successfully');
   } catch (error) {

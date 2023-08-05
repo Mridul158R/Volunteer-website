@@ -1,6 +1,6 @@
 import React,{useContext, useEffect} from 'react';
 import EventContext from "../context/events/EventContext";
-import Slide from "../component/Slide";
+import OrganizedEventCard from '../component/OrganizedEventCard';
 
 const Organized = () => {
     const context = useContext(EventContext);
@@ -18,7 +18,7 @@ const Organized = () => {
       {events.length === 0 && "No notes to display"}
       </div>
       {events.map((event)=>{
-        return <Slide key={event._id} event = {event} />
+        return <OrganizedEventCard key={event._id} event = {event} />
       })}
 
     </div>

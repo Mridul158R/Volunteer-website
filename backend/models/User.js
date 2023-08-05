@@ -26,7 +26,7 @@ const UserSchema = new Schema({
   registeredEvents: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'events'
-  }]
+  }] 
 
 });
 const User = mongoose.model('user',UserSchema);

@@ -1,12 +1,15 @@
 import React,{useContext, useEffect, useRef, useState} from 'react';
 import EventContext from "../context/events/EventContext";
 import Slide from "./Slide";
-import EventState from '../context/events/EventState';
+import dayjs from 'dayjs';
 
 const Events = () => {
     const context = useContext(EventContext);
     const {events ,getallEvents} = context;
-
+    const today = dayjs().startOf('day');
+    const filteredEvents = events.filter((event) =>
+    dayjs(event.date).isSame(today, 'day') || dayjs(event.date).isAfter(today)
+  );
     useEffect(() => {
 
         getallEvents();
@@ -17,7 +20,7 @@ const Events = () => {
       <div className="container mx-2">
       {events.length === 0 && "No notes to display"}
       </div>
-      {events.map((event)=>{
+      {filteredEvents .map((event)=>{
         return <Slide key={event._id} event = {event} />
       })}
 

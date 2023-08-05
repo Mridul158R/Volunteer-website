@@ -7,8 +7,12 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { LinkContainer } from "react-router-bootstrap";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { useNavigate } from "react-router";
+import EventContext from '../context/events/EventContext';
+
 
 function NavigationMenu() {
+  // const context = useContext(EventContext);
+  // const { register, checkRegistration } = context;
   const expand = "sm";
   let navigate = useNavigate();
   const handleLogout =()=>{
@@ -23,7 +27,7 @@ function NavigationMenu() {
         bg="dark"
         variant="dark"
         expand={expand}
-        className="mb-3"
+        className=""
       >
         <Container fluid>
           <Navbar.Brand href="#">Volunteer</Navbar.Brand>
@@ -56,10 +60,7 @@ function NavigationMenu() {
                   <NavDropdown title="My Events" id="basic-nav-dropdown" bg="dark" variant="dark">
                     <NavDropdown.Item href="/volunteered">Volunteered Events</NavDropdown.Item>
                     <NavDropdown.Item href="/organized">Organized Events</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action/3.4">
-                      Separated link
-                    </NavDropdown.Item>
+                    
                   </NavDropdown>
               </Nav>
               <Form className="d-flex">

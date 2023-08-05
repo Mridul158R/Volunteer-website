@@ -5,7 +5,7 @@ const { body, validationResult } = require('express-validator');
 const bcrypt=require('bcryptjs');
 var jwt=require('jsonwebtoken');
 var fetchuser=require('../middleware/fetchuser');
-const JWT_SECRET=process.env.REACT_APP_JWT_SECRET_KEY;
+const JWT_SECRET='doingdev@hard$sucksfunendresult';
 
 //ROUTE1:create user using POST "/api/auth/createUser" No login required
 

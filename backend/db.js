@@ -1,15 +1,17 @@
 const mongoose = require('mongoose');
-const mongoURI = process.env.REACT_APP_mongo;
+require('dotenv').config();
+const mongoURI = process.env.REACT_APP_DATABASE;
 
 
 const connectToMongo = ()=>{
     mongoose.set('strictQuery', false);
+    console.log(process.env.REACT_APP_DATABASE);
     mongoose.connect(mongoURI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         // useCreateIndex: true,
         // useFindAndModify: false,
-       }).then(() => console.log("Database connected!")).catch(err => console.log(err));
+       }).then(() => console.log("Database connected!",process.env.REACT_APP_DATABASE)).catch(err => console.log(err));
 }
-
-module.exports = connectToMongo; 
+ 
+module.exports = connectToMongo;   
