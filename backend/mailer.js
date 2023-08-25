@@ -21,8 +21,8 @@ const mailer = async () => {
     let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'neelamtiwari0815@gmail.com',
-        pass: 'vtehqksnzbxaowcd'
+        user: process.env.REACT_APP_MAIL,
+        pass: process.env.REACT_APP_PASS
       }
     });
 
