@@ -137,7 +137,7 @@ const EventState = (props)=>{
           }
           setEvents(newEvents);
         
-      }
+      } 
       const register = async (id)=>{
         //api call
         const response = await fetch(`${host}/api/events/updateevent/${id}`, {

@@ -66,15 +66,15 @@ function App() {
 
               <MDBInput wrapperClass='mb-4' label='' id='email' name='email' value={credentials.email} onChange={onChange} type='email' placeholder='Email'/>
               <MDBInput wrapperClass='mb-4' label='' id='password' name='password' value={credentials.password} onChange={onChange} type='password' placeholder='Password' required minLength={5}/>
-              <MDBInput wrapperClass='mb-4' label='' id='cpassword' name='cpassword' value={credentials.cpassword} onChange={onChange} type='password' placeholder='Confirm Password' required minLength={5}/>
+              {/* <MDBInput wrapperClass='mb-4' label='' id='cpassword' name='cpassword' value={credentials.cpassword} onChange={onChange} type='password' placeholder='Confirm Password' required minLength={5}/> */}
 
-              <div className="d-flex justify-content-between mx-4 mb-4">
+              {/* <div className="d-flex justify-content-between mx-4 mb-4">
             <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
             <a onClick={(e) => {
                   e.preventDefault();
                   navigate('/login');
                 }} href="/login">Already have an account ? Log in</a>
-          </div>
+          </div> */}
 
               <MDBBtn className='w-100 mb-4' onClick={handleSubmit} size='md'>Sign Up</MDBBtn>
 

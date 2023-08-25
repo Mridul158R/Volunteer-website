@@ -89,7 +89,7 @@ router.post(
         
         const userId = req.user.id;
         const user = await User.findById(userId).select("-password");
-        event.registrations.push({ name: user.name, email: user.email });
+        event.registrations.push({ userId : userId,  name: user.name, email: user.email });
         //adding this event to user registered events array
         
         user.registeredEvents.push(req.params.id);
@@ -106,29 +106,49 @@ router.post(
     })
 
 
-router.get(
-    "/checkRegistration/:eventId",fetchuser,async (req, res) => {
-        try{ 
-            const userId = req.user.id;
-            const eventId = req.params.eventId;
-        
-            // Find the user by ID
-            const user = await User.findById(userId);
-        
-            // Check if the user exists
-            if (!user) {
-              return res.status(404).json({ error: 'User not found' });
-            }
-        
-            // Check if the user is registered for the event
-            const isRegistered = user.registeredEvents.includes(eventId);
-        
-            res.json({ isRegistered });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Internal Server Error");
+    // router.get("/checkRegistration/:eventId", fetchuser, async (req, res) => {
+    //     try {
+    //       const userId = req.user.id;
+    //       const eventId = req.params.eventId;
+      
+    //       // Find the user by ID
+    //       const user = await User.findById(userId);
+      
+    //       // Check if the user exists
+    //       if (!user) {
+    //         return res.status(404).json({ error: 'User not found' });
+    //       }
+      
+    //       // Check if the user is registered for the event
+    //       const isRegistered = user.registeredEvents.includes(eventId);
+      
+    //       res.json({ isRegistered });
+    //     } catch (error) {
+    //       console.error(error.message);
+    //       res.status(500).send("Internal Server Error");
+    //     }
+    //   });
+    router.get('/checkRegistration/:id', fetchuser, async (req, res) => {
+  const eventId = req.params.id;
+  const userId = req.user.id; // Assuming you have authentication middleware
+
+  try {
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
     }
-    })
+
+    const isRegistered = event.registrations.some(
+      (registration) => registration.userId.toString() === userId
+    );
+        console.log(isRegistered);
+    res.json({ isRegistered });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+      
 
 // Route 4 : Delete the events using : DELETE "/api/events/deleteevent" login require
 router.delete(

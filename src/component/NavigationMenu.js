@@ -30,7 +30,7 @@ function NavigationMenu() {
         className=""
       >
         <Container fluid>
-          <Navbar.Brand href="#">Volunteer</Navbar.Brand>
+          <Navbar.Brand href="/">Volunteer</Navbar.Brand>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
           <Navbar.Offcanvas
             id={`offcanvasNavbar-expand-${expand}`}
@@ -51,9 +51,9 @@ function NavigationMenu() {
                   <LinkContainer to="/About">
                     <Nav.Link>About</Nav.Link>
                   </LinkContainer>
-                  <LinkContainer to="/ContactUs">
+                  {/* <LinkContainer to="/ContactUs">
                     <Nav.Link>ContactUs</Nav.Link>
-                  </LinkContainer>
+                  </LinkContainer> */}
                   <LinkContainer to="/Host">
                     <Nav.Link>OrganizeEvent</Nav.Link>
                   </LinkContainer>

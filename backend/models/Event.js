@@ -36,6 +36,9 @@ const EventSchema = new Schema({
     required : true,
   },
   registrations : [{
+    userId :{
+      type : mongoose.Schema.Types.ObjectId,
+    },
     name : String,
     email : String
   }]

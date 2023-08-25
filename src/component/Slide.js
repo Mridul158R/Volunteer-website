@@ -25,8 +25,13 @@ function Slide(props) {
 
   const handleVolunteer = async () => {
       await console.log(await checkRegistration(event._id));
-      await register(event._id);
-      setIsRegistered(true);
+      if(checkRegistration(event._id)){
+        alert("You have already registered to the event")
+      }
+      else{
+        await register(event._id);
+        setIsRegistered(true);
+      }
   };
 
   // Add this useEffect to update the registration status when the user changes
@@ -37,6 +42,7 @@ function Slide(props) {
   const formatDate = (date) => {
     return dayjs(date).format('MMMM D, YYYY');
   };
+
   return (
     <div className="col-sm-3">
       <Card className='shadow-lg p-3 mb-5 bg-white rounded'>
@@ -55,8 +61,8 @@ function Slide(props) {
           <div className="d-flex justify-content-center">
             <Button
               onClick={handleVolunteer}
-              disabled={isRegistered}
-              className='btn btn-dark  '
+              // disabled={isRegistered}
+              className='btn btn-dark'
             >
               Volunteer
             </Button>
