@@ -6,17 +6,67 @@ const Event = require("../models/Event");
 const { body, validationResult } = require("express-validator");
 
 router.get("/globalfetchevents", async (req, res) => { 
-    const events = await Event.find();
-    res.json(events);
+        const events = await Event.find();
+        const requiredevents=[];
+        for(var i=0;i<events.length;i++)
+        {
+            if(events[i].volunteer>0)
+            requiredevents.push(events[i])
+        }
+        res.json(requiredevents);
+       
+});
+router.get("/globalfetchrequiredevents", fetchuser, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await User.findById(userId);
+     
+        if (!user) {
+          return res.status(404).json({ error: "User not found" });
+        }
+    
+        // Retrieve the event IDs from the user's registeredEvents array
+        const registeredEventIds = user.registeredEvents;
+    
+        // Find events where the _id field is present in the registeredEventIds array
+        const volunteeredevents = await Event.find({ _id: { $in: registeredEventIds } });
+        const totalevents=await Event.find();
+        const requiredevents=[];
+    
+        for(var i=0;i<totalevents.length;i++)
+        {
+            let ok=true;
+            for(var j=0;j<volunteeredevents.length;j++)
+            {
+                const a=JSON.stringify(volunteeredevents[j]._id),b=JSON.stringify(totalevents[i]._id)
+                if(a===b || totalevents[i].volunteer===0)
+                {
+                    ok=false;
+                    break;
+                }
+            }
+            if(ok)
+            {
+                requiredevents.push(totalevents[i]);
+            }
+        }
+        res.json(requiredevents);
+        
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+      }
+
+    
 });
 
-
-// Route 1 : Get all the events using : GET "/api/events/fetchallevents" login req.
+// Route 1 : Get all the events organized by user
 router.get("/fetchallevents", fetchuser, async (req, res) => {
     const events = await Event.find({ user: req.user.id });
     res.json(events);
 });
 
+//route : get all events user volunteered in
 router.get("/fetchvolunteeredevents", fetchuser, async (req, res) => {
     try {
       const userId = req.user.id;
@@ -52,7 +102,7 @@ router.post(
     ],
     async (req, res) => {
         try {
-            const { image, title, description, address, date, volunteer } = req.body;
+            const { image,title, description, address, date, volunteer } = req.body;
             //if err return err
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -89,7 +139,8 @@ router.post(
         
         const userId = req.user.id;
         const user = await User.findById(userId).select("-password");
-        event.registrations.push({ userId : userId,  name: user.name, email: user.email });
+        event.registrations.push({ name: user.name, email: user.email });
+        event.volunteer=event.volunteer-1;
         //adding this event to user registered events array
         
         user.registeredEvents.push(req.params.id);
@@ -106,49 +157,29 @@ router.post(
     })
 
 
-    // router.get("/checkRegistration/:eventId", fetchuser, async (req, res) => {
-    //     try {
-    //       const userId = req.user.id;
-    //       const eventId = req.params.eventId;
-      
-    //       // Find the user by ID
-    //       const user = await User.findById(userId);
-      
-    //       // Check if the user exists
-    //       if (!user) {
-    //         return res.status(404).json({ error: 'User not found' });
-    //       }
-      
-    //       // Check if the user is registered for the event
-    //       const isRegistered = user.registeredEvents.includes(eventId);
-      
-    //       res.json({ isRegistered });
-    //     } catch (error) {
-    //       console.error(error.message);
-    //       res.status(500).send("Internal Server Error");
-    //     }
-    //   });
-    router.get('/checkRegistration/:id', fetchuser, async (req, res) => {
-  const eventId = req.params.id;
-  const userId = req.user.id; // Assuming you have authentication middleware
-
-  try {
-    const event = await Event.findById(eventId);
-    if (!event) {
-      return res.status(404).json({ message: 'Event not found' });
+router.get(
+    "/checkRegistration/:eventId",fetchuser,async (req, res) => {
+        try{ 
+            const userId = req.user.id;
+            const eventId = req.params.eventId;
+        
+            // Find the user by ID
+            const user = await User.findById(userId);
+        
+            // Check if the user exists
+            if (!user) {
+              return res.status(404).json({ error: 'User not found' });
+            }
+        
+            // Check if the user is registered for the event
+            const isRegistered = user.registeredEvents.includes(eventId);
+        
+            res.json({ isRegistered });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
     }
-
-    const isRegistered = event.registrations.some(
-      (registration) => registration.userId.toString() === userId
-    );
-        console.log(isRegistered);
-    res.json({ isRegistered });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-      
+    })
 
 // Route 4 : Delete the events using : DELETE "/api/events/deleteevent" login require
 router.delete(

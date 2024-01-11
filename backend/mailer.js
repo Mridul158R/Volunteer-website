@@ -1,6 +1,8 @@
 const nodemailer = require("nodemailer");
 const Event = require("./models/Event"); 
 const moment = require("moment");
+const email=process.env.EMAIL;
+const password=process.env.PASSWORD;
 
 
 const mailer = async () => {
@@ -21,8 +23,8 @@ const mailer = async () => {
     let transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'neelamtiwari0815@gmail.com',
-        pass: 'vtehqksnzbxaowcd'
+        user: email,
+        pass: password
       }
     });
 

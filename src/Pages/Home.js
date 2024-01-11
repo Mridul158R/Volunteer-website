@@ -1,6 +1,6 @@
 import React from 'react'
 import Events from "../component/Events"
-import volunteerimg from "./volunteer.jpg"
+
 import './all.css'
 
 const Home = () => {

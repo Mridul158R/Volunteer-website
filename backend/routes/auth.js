@@ -5,7 +5,8 @@ const { body, validationResult } = require('express-validator');
 const bcrypt=require('bcryptjs');
 var jwt=require('jsonwebtoken');
 var fetchuser=require('../middleware/fetchuser');
-const JWT_SECRET='doingdev@hard$sucksfunendresult';
+const JWT_SECRET=process.env.JWT_SECRET; 
+// const JWT_SECRET='something'; 
 
 //ROUTE1:create user using POST "/api/auth/createUser" No login required
 
@@ -23,6 +24,9 @@ if(!errors.isEmpty()){
 }
 //check whether user with email exist already
 try{
+
+
+
 let user=await User.findOne({email:req.body.email});
 if(user){
    return res.status(400).json({success,error:"sorry a user with this email already exist"})
@@ -97,27 +101,12 @@ res.status(500).send(" Internal server error");
     
 })
 
-//Route3:Get loggin User end point /api/auth/getuser login required
-// router.post('/getuser',fetchuser,async(req,res)=>{
-  
-// try{
-//   useriId=req.user.id;
-//   const user=await User.findById(useriId).select("-password")
-//   res.send(user)
-// }
-// catch(error){
-//   console.error(error.message);
-//   res.status(500).send(" Internal server error");
-// }
-// })
-
-
 
 router.post("/getuser", fetchuser, async (req, res) => {
   try {
     
     const userId = req.user.id;
-   console.log({userId}) 
+  //  console.log({userId}) 
     const user = await User.findById(userId).select("-password");
     res.send(user);
 

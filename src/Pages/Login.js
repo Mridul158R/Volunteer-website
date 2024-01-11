@@ -6,9 +6,8 @@ import {
   MDBCol,
   MDBRow,
   MDBBtn,
-  MDBIcon,
   MDBInput,
-  MDBCheckbox
+
 }
 from 'mdb-react-ui-kit';
 
@@ -28,7 +27,7 @@ const Login = () => {
               body: JSON.stringify({email: credentials.email, password: credentials.password }),
           });
           const json = await response.json();
-          console.log(json);
+       
           if(json.success){
             //save the authtoken and redirect
             localStorage.setItem('token', json.authtoken);
@@ -59,7 +58,7 @@ const Login = () => {
 
 
           <div className="d-flex justify-content-between mx-4 mb-4">
-            <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Remember me' />
+            <div></div>
             <a onClick={(e) => {
                   e.preventDefault();
                   navigate('/signup');
@@ -68,11 +67,11 @@ const Login = () => {
 
           <MDBBtn className="mb-4 w-100" size="lg" onClick={handleSubmit}>Sign in</MDBBtn>
 
-          <div className="divider d-flex align-items-center my-4">
+          {/* <div className="divider d-flex align-items-center my-4">
             <p className="text-center fw-bold mx-3 mb-0">OR</p>
-          </div>
+          </div> */}
 
-          <MDBBtn className="mb-4 w-100" size="lg" style={{backgroundColor: '#3b5998'}}>
+          {/* <MDBBtn className="mb-4 w-100" size="lg" style={{backgroundColor: '#3b5998'}}>
             <MDBIcon fab icon="facebook-f" className="mx-2"/>
             Continue with facebook
           </MDBBtn>
@@ -80,7 +79,7 @@ const Login = () => {
           <MDBBtn className="mb-4 w-100" size="lg" style={{backgroundColor: '#55acee'}}>
             <MDBIcon fab icon="twitter" className="mx-2"/>
             Continue with twitter
-          </MDBBtn>
+          </MDBBtn> */}
 
         </MDBCol>
 

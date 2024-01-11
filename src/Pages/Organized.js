@@ -1,10 +1,11 @@
 import React,{useContext, useEffect} from 'react';
 import EventContext from "../context/events/EventContext";
 import OrganizedEventCard from '../component/OrganizedEventCard';
+import Spinner from '../component/Spinner';
 
 const Organized = () => {
     const context = useContext(EventContext);
-    const {events ,getEvents} = context;
+    const {isLoading,events ,getEvents} = context;
 
     useEffect(() => {
 
@@ -14,10 +15,9 @@ const Organized = () => {
 
   return (
     <div className="row my-3 mx-2">
-      <div className="container mx-2">
-      {events.length === 0 && "No notes to display"}
-      </div>
-      {events.map((event)=>{
+      
+      {isLoading?<Spinner/>:events.length===0 ? <div className="container mx-2">No notes to display</div>
+      :events.length>0 && events.map((event)=>{
         return <OrganizedEventCard key={event._id} event = {event} />
       })}
 

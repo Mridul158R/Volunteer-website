@@ -1,24 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import EventContext from "./EventContext";
 
 const EventState = (props)=>{
-  const host ="http://localhost:5000"
-    const eventsInitial = [];
-      const [events, setEvents] = useState(eventsInitial);
-      const [reg, setreg] = useState(false);
-      // const [user, setUser] = useState({name : "", email : ""});
-
-      // const currentUser = (name, email) => {
-      //   setUser({ name, email });
-      // };
-      
-      // useEffect(() => {
-      //   console.log(user);
-      // }, [user]);
-
+  const host ="http://localhost:5000";
+      let eventsInitial = [];
+      let [events, setEvents] = useState(eventsInitial);
+      let [isLoading,setisLoading]=useState(true)
       //Get all the events
       const getallEvents = async ()=>{
         //api call
+        setisLoading(true);
         const response = await fetch(`${host}/api/events/globalfetchevents`, {
           method: "GET", 
           
@@ -27,15 +18,35 @@ const EventState = (props)=>{
           },
         });
         const json = await response.json();
-        console.log("getall func");
-        console.log(json);
+        // console.log("getall func");
+        // console.log(json);
         setEvents(json);
+        setisLoading(false);
         
       }
-
+      //Get all the required events
+      const getallrequiredEvents = async ()=>{
+        //api call
+        setisLoading(true);
+        const response = await fetch(`${host}/api/events/globalfetchrequiredevents`, {
+          method: "GET", 
+          
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token" : localStorage.getItem('token')
+          },
+        });
+        const json = await response.json();
+        // console.log("getall func");
+        // console.log(json);
+        setEvents(json);
+        setisLoading(false);
+        
+      }
       //Get all the events user has organized
       const getEvents = async ()=>{
         //api call
+        setisLoading(true);
         const response = await fetch(`${host}/api/events/fetchallevents`, {
           method: "GET", 
           
@@ -46,13 +57,15 @@ const EventState = (props)=>{
         });
         const json = await response.json();
 
-        console.log(json);
+        // console.log(json);
         setEvents(json);
+        setisLoading(false);
         
       }
-      //Get all the events user has organized
+      //Get all the events user has been participated
       const volunteeredEvents = async ()=>{
         //api call
+        setisLoading(true);
         const response = await fetch(`${host}/api/events/fetchvolunteeredevents`, {
           method: "GET", 
           
@@ -63,16 +76,18 @@ const EventState = (props)=>{
         });
         const json = await response.json();
 
-        console.log(json);
+        // console.log(json);
         setEvents(json);
+        setisLoading(false);
         
       }
 
       
 
       //ADD a Event
-      const addEvent = async ( image , title, description , address, date, volunteer)=>{
+      const addEvent = async (image,title,description,address,date,volunteer)=>{
         //api call
+        setisLoading(true);
         const response = await fetch(`${host}/api/events/addevent`, {
           method: "POST", 
           
@@ -80,66 +95,68 @@ const EventState = (props)=>{
             "Content-Type": "application/json",
             "auth-token" : localStorage.getItem('token')
           },
-          body: JSON.stringify({image, title, description , address, date, volunteer}),
+          body: JSON.stringify({image,title,description,address,date,volunteer}),
         });
         const event = await response.json();
 
-        console.log("New event:");
-        console.log(date);
+        // console.log("New event:");
+        // console.log(date);
         
         setEvents(events.concat(event));
+        setisLoading(false);
       }
 
       //Delete a event
-      const deleteEvent = async (id)=>{
-        //api call
-        const response = await fetch(`${host}/api/events/deleteevent/${id}`, {
-          method: "DELETE", 
+      // const deleteEvent = async (id)=>{
+      //   //api call
+      //   const response = await fetch(`${host}/api/events/deleteevent/${id}`, {
+      //     method: "DELETE", 
           
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token" : localStorage.getItem('token')
-          },
-        });
-        const json =await response.json(); 
-        console.log(json);
-        console.log("deleted event"+id);
-        const newEvents = events.filter((event)=>{return event._id!==id})
-        setEvents(newEvents)
-      }
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       "auth-token" : localStorage.getItem('token')
+      //     },
+      //   });
+      //   const json =await response.json(); 
+      //   console.log(json);
+      //   console.log("deleted event"+id);
+      //   const newEvents = events.filter((event)=>{return event._id!==id})
+      //   setEvents(newEvents)
+      // }
 
       //EDIT a Event
-      const editEvent = async (id, title, description, tag)=>{
-        //api call
-        const response = await fetch(`${host}/api/events/updateevent/${id}`, {
-          method: "PUT", 
+      // const editEvent = async (id, title, description, tag)=>{
+      //   //api call
+      //   const response = await fetch(`${host}/api/events/updateevent/${id}`, {
+      //     method: "PUT", 
           
-          headers: {
-            "Content-Type": "application/json",
-            "auth-token" : localStorage.getItem('token')
-          },
-          body: JSON.stringify({title, description , tag}),
-        });
-        const json =await response.json(); 
-        console.log(json);
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       "auth-token" : localStorage.getItem('token')
+      //     },
+      //     body: JSON.stringify({title, description , tag}),
+      //   });
+      //   const json =await response.json(); 
+      //   console.log(json);
       
-        let newEvents = JSON.parse(JSON.stringify(events))
-        //logic to edit in client
+      //   let newEvents = JSON.parse(JSON.stringify(events))
+      //   //logic to edit in client
        
-          for (let index = 0; index < newEvents.length; index++) {
-            const element = newEvents[index];
-            if(element._id === id){
-              newEvents[index].title = title;
-              newEvents[index].description = description;
-              newEvents[index].tag = tag;
-              break;
-            }
-          }
-          setEvents(newEvents);
+      //     for (let index = 0; index < newEvents.length; index++) {
+      //       const element = newEvents[index];
+      //       if(element._id === id){
+      //         newEvents[index].title = title;
+      //         newEvents[index].description = description;
+      //         newEvents[index].tag = tag;
+      //         break;
+      //       }
+      //     }
+      //     setEvents(newEvents);
         
-      } 
+      // }
       const register = async (id)=>{
         //api call
+        setisLoading(true);
         const response = await fetch(`${host}/api/events/updateevent/${id}`, {
           method: "POST", 
           
@@ -148,8 +165,9 @@ const EventState = (props)=>{
             "auth-token" : localStorage.getItem('token')
           }
         });
-        const json =await response.json(); 
-        console.log(json.isRegistered);
+        const json =await response.json();
+        setisLoading(false); 
+        // console.log(json.isRegistered);
         
       }
       
@@ -171,7 +189,7 @@ const EventState = (props)=>{
       }
 
     return (
-        <EventContext.Provider value={ {events, getallEvents, volunteeredEvents, addEvent, deleteEvent, editEvent, getEvents , register, checkRegistration} }>
+        <EventContext.Provider value={ {isLoading,events,getallrequiredEvents , getallEvents, volunteeredEvents, addEvent, getEvents , register, checkRegistration} }>
           {props.children}
         </EventContext.Provider>
       )

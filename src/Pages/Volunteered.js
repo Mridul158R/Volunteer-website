@@ -1,10 +1,10 @@
 import React,{useContext, useEffect} from 'react';
 import EventContext from "../context/events/EventContext";
 import Slide from "../component/Slide";
-
+import Spinner from '../component/Spinner';
 const Volunteered = () => {
     const context = useContext(EventContext);
-    const {events ,volunteeredEvents} = context;
+    const {events ,volunteeredEvents,isLoading} = context;
 
     useEffect(() => {
 
@@ -14,13 +14,12 @@ const Volunteered = () => {
 
   return (
     <div className="row my-3 mx-2">
-      <div className="container mx-2">
-      {events.length === 0 && "No notes to display"}
-      </div>
-      {events.map((event)=>{
-        return <Slide key={event._id} event = {event} />
+      
+      {isLoading ? <Spinner/>:events.length === 0 ?<div className='container mx-2' >No events to display</div>:events.map((event)=>{
+        return <Slide key={event._id} event = {event} isvolunteer={true}/>
       })}
- 
+    
+   
     </div>
   )
 }
